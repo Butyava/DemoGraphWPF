@@ -16,6 +16,7 @@ namespace DemoGraphWPF
     {
         public bool[,] m_Matrix;
         public string m_Name;
+        public int m_numberPngFile;
 
         public void GenerateDotFile()
         {
@@ -48,11 +49,13 @@ namespace DemoGraphWPF
             };
     
             graphViz.Generate(new FileDotEngine(), m_Name);
+            
         }
 
        
         public void GeneratePngFile()
         {
+           // m_Name = m_Name + m_numberPngFile++;
             Process m_proc = new Process();
             m_proc.StartInfo.FileName = @"C:\graphviz-2.32\release\bin\dot";
             m_proc.StartInfo.Arguments = string.Format(@"-T png {0}.dot -o {0}.png", m_Name);  

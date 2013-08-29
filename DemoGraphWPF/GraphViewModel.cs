@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 
 namespace DemoGraphWPF
@@ -11,6 +13,14 @@ namespace DemoGraphWPF
     {
         Graph m_Graph1;
         Graph m_Graph2;
+        private DelegateCommand m_GenerateIsomorphicCommand;
+        private DelegateCommand m_ProveIsomorphism1Command;
+        private DelegateCommand m_ProveIsomorphisn2Command;
+        Graph m_Isomorphic;
+        Random m_Random = new Random();
+        ObservableCollection<int> m_Condition = new ObservableCollection<int>();
+        ObservableCollection<int> m_ConditionIsomorphic = new ObservableCollection<int>();
+        
 
         public bool[,] Matrix
         {
@@ -42,15 +52,94 @@ namespace DemoGraphWPF
             }
         }
 
-        public GraphViewModel(Graph graph1, Graph graph2)
+        public string NameIsomorphic
+        {
+            get { return string.Format("{0}.png", m_Isomorphic.m_Name); }
+            set
+            {
+                m_Isomorphic.m_Name = value;
+                OnPropertyChanged("NameIsomorphic");
+            }
+        }
+
+        public ICommand GenerateIsomorphicCommand
+        {
+            get
+            {
+                if (m_GenerateIsomorphicCommand == null)
+                {
+                    m_GenerateIsomorphicCommand = new DelegateCommand(GenerateIsomorphic);
+                }
+                return m_GenerateIsomorphicCommand;
+            }
+        }
+
+        private void GenerateIsomorphic()
+        {
+            int random;
+           m_ConditionIsomorphic.Clear();
+            for (int i = 0; i < m_Condition.Count; i++)
+            {
+                for (int j = 0; j < m_Condition.Count; j++)
+                {
+                    m_Isomorphic.m_Matrix[i, j] = false;
+                }
+            }
+            for (int i = 0; i < (m_Condition.Count-1); i++)
+            {
+                random=m_Random.Next((m_Condition.Count-1));
+
+                if (!(m_ConditionIsomorphic.Contains(random)))
+                {
+                    m_ConditionIsomorphic.Add(random);
+                }
+                else
+                {
+                    i--;
+                }
+
+            }
+            for (int i = 0; i < m_Condition.Count; i++)
+            {
+                if (!(m_ConditionIsomorphic.Contains(i)))
+                {
+                    m_ConditionIsomorphic.Add(i);
+                }
+            }
+            for (int i = 0; i < m_ConditionIsomorphic.Count; i++)
+            {
+                for (int j = 0; j < m_ConditionIsomorphic.Count; j++)
+                {
+                    if (m_Graph1.m_Matrix[m_ConditionIsomorphic[i], j] == true)
+                    {
+                        for(int k=0; k< m_ConditionIsomorphic.Count;k++)
+                        {
+                            if (m_ConditionIsomorphic[k]==j)
+                            {
+                                m_Isomorphic.m_Matrix[i, k] = true;
+                            }
+                        }
+                        
+                    }
+                    
+                }
+            }
+            m_Isomorphic.GenerateDotFile();
+            m_Isomorphic.GeneratePngFile();
+            }
+
+        public GraphViewModel(Graph graph1, Graph graph2, ObservableCollection<int> condition, Graph isomorphic)
         {
             m_Graph1 = graph1;
             m_Graph2 = graph2;
+            m_Isomorphic = isomorphic;
+            m_Condition = condition;
             m_Graph1.GenerateDotFile();
             m_Graph2.GenerateDotFile();
             m_Graph1.GeneratePngFile();
             m_Graph2.GeneratePngFile();
-            
+            //m_Isomorphic.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic";
+          
         }
     }
 }

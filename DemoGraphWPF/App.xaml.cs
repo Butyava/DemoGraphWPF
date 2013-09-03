@@ -46,11 +46,11 @@ namespace DemoGraphWPF
             m_Gr1.m_Name = @"C:\graphviz-2.32\release\bin\m_graph1";
             m_Gr2.m_Name = @"C:\graphviz-2.32\release\bin\m_graph2";
             m_Isom.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic";
-            GraphViewModel viewModel = new GraphViewModel
+          GraphViewModel viewModel = new GraphViewModel
                 (m_Gr1, m_Gr2, new ObservableCollection<int> {0,5,7,2,4,1,3,6},m_Isom);
 
             view.DataContext = viewModel;
-
+           
 
             view.Show();
 

@@ -20,9 +20,45 @@ namespace DemoGraphWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GraphViewModel ViewModel { get { return ((GraphViewModel)DataContext); } }
+
+        private void Click1(object sender, RoutedEventArgs e)
+        {
+            ViewModel.GenerateIsomorphic();
+            ImageSourceConverter imgConv = new ImageSourceConverter();
+            string path = string.Format("{0}.png", ViewModel.m_Isomorphic.m_Name);
+            ImageSource imageSource = (ImageSource)imgConv.ConvertFromString(path);
+            Image3.Source = imageSource;
+            if (ViewModel.m_Isomorphic.m_Name == @"C:\graphviz-2.32\release\bin\m_isomorphic")
+            {
+                ViewModel.m_Isomorphic.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic1";
+
+            }
+            else
+            {
+                ViewModel.m_Isomorphic.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic";
+            }
+        }
+
+        private void Click2(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ProveIsomorphism1();
+            TextBlock2.Text = ViewModel.m_Condition1;
+        }
+
+        private void Click3(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ProveIsomorphism2();
+            TextBlock2.Text = ViewModel.m_Condition1;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
+
+
+
     }
 }

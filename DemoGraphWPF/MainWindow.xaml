@@ -5,11 +5,15 @@
     <StackPanel Orientation="Horizontal">
         <Image Width="200" Source="{Binding Name1}"/>
         <Image Width="200" Source="{Binding Name2}"/>
-        <Image Width="200" Source="{Binding NameIsomorphic}"/>
+        <Image Width="200" x:Name="Image3"/>
         <StackPanel>
-            <Button Content="Генерировать изоморфный граф" Command="{Binding GenerateIsomorphicCommand}"/>
-            <Button Content="Доказать изоморфизм графу №1" Command="{Binding ProveIsomorphism1Command}"/>
-            <Button Content="Доказать изоморфизм графу №2" Command="{Binding ProveIsomorphism2Command}"/>
+            <ContentControl Content="{Binding GraphViewModel}"/>
+            <Button Content="Генерировать изоморфный граф"  Click="Click1" />
+            <Button Content="Доказать изоморфизм графу №1" Command="{Binding ProveIsomorphism1Command}" Click="Click2"/>
+            <Button Content="Доказать изоморфизм графу №2" Command="{Binding ProveIsomorphism2Command}" Click="Click3"/>
+            <TextBlock Text="0 1 2 3 4 5 6 7"/>
+            <TextBlock x:Name="TextBlock2"/>
+            
         </StackPanel>
     </StackPanel>
 

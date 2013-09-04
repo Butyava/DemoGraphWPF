@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace DemoGraphWPF
 {
@@ -24,6 +25,7 @@ namespace DemoGraphWPF
 
         private void Click1(object sender, RoutedEventArgs e)
         {
+            
             ViewModel.GenerateIsomorphic();
             ImageSourceConverter imgConv = new ImageSourceConverter();
             string path = string.Format("{0}.png", ViewModel.m_Isomorphic.m_Name);
@@ -31,12 +33,20 @@ namespace DemoGraphWPF
             Image3.Source = imageSource;
             if (ViewModel.m_Isomorphic.m_Name == @"C:\graphviz-2.32\release\bin\m_isomorphic")
             {
-                ViewModel.m_Isomorphic.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic1";
+                File.Delete(@"C:\graphviz-2.32\release\bin\m_isomorphic2");
+                ViewModel.m_Isomorphic.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic2";
 
             }
-            else
+            else if (ViewModel.m_Isomorphic.m_Name == @"C:\graphviz-2.32\release\bin\m_isomorphic3")
             {
+                File.Delete(@"C:\graphviz-2.32\release\bin\m_isomorphic");
                 ViewModel.m_Isomorphic.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic";
+            }
+
+            else if (ViewModel.m_Isomorphic.m_Name == @"C:\graphviz-2.32\release\bin\m_isomorphic2")
+            {
+                File.Delete(@"C:\graphviz-2.32\release\bin\m_isomorphic3");
+                ViewModel.m_Isomorphic.m_Name = @"C:\graphviz-2.32\release\bin\m_isomorphic3";
             }
         }
 
